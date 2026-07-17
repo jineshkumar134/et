@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+/* ─── Design Tokens ──────────────────────────────────────────── */
+@theme {
+  --color-primary:        #2563EB;
+  --color-primary-hover:  #1D4ED8;
+  --color-success:        #16A34A;
+  --color-warning:        #F59E0B;
+  --color-danger:         #DC2626;
+
+  --color-bg:             #111827;
+  --color-surface:        #1F2937;
+  --color-surface-2:      #111827;
+  --color-border:         #374151;
+  --color-border-subtle:  #1F2937;
+
+  --color-text-primary:   #F9FAFB;
+  --color-text-secondary: #9CA3AF;
+  --color-text-tertiary:  #6B7280;
+
+  /* CPCB AQI Standard */
+  --color-aqi-good:       #16A34A;
+  --color-aqi-satisfactory: #84CC16;
+  --color-aqi-moderate:   #F59E0B;
+  --color-aqi-poor:       #EA580C;
+  --color-aqi-very-poor:  #DC2626;
+  --color-aqi-severe:     #7C3AED;
+}
+
+/* ─── Base ───────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background-color: #111827;
+  color: #F9FAFB;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── Leaflet — Professional Light-Style Overrides ───────────── */
+.leaflet-container {
+  background: #e8edf2 !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Zoom controls */
+.leaflet-bar {
+  border: 1px solid #D1D5DB !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+  border-radius: 6px !important;
+  overflow: hidden;
+}
+.leaflet-bar a {
+  background-color: #FFFFFF !important;
+  color: #374151 !important;
+  border-bottom: 1px solid #E5E7EB !important;
+  width: 30px !important;
+  height: 30px !important;
+  line-height: 30px !important;
+  font-size: 16px !important;
+  transition: background 0.15s;
+}
+.leaflet-bar a:hover {
+  background-color: #F3F4F6 !important;
+  color: #111827 !important;
+}
+.leaflet-bar a:last-child { border-bottom: none !important; }
+
+/* Attribution */
+.leaflet-control-attribution {
+  background: rgba(255,255,255,0.85) !important;
+  color: #6B7280 !important;
+  font-size: 10px !important;
+  padding: 2px 6px !important;
+  border-radius: 4px 0 0 0 !important;
+}
+.leaflet-control-attribution a { color: #2563EB !important; }
+
+/* Popup — clean white card */
+.leaflet-popup-content-wrapper {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important;
+  padding: 0 !important;
+}
+.leaflet-popup-content {
+  margin: 0 !important;
+  color: #111827 !important;
+}
+.leaflet-popup-tip-container { margin-top: -1px !important; }
+.leaflet-popup-tip {
+  background: #FFFFFF !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+.leaflet-popup-close-button {
+  color: #6B7280 !important;
+  font-size: 18px !important;
+  top: 8px !important;
+  right: 8px !important;
+}
+.leaflet-popup-close-button:hover { color: #111827 !important; }
+
+/* ─── Scrollbars ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #374151; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #4B5563; }
+
+/* ─── Utility Classes ────────────────────────────────────────── */
+.aqi-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Fade-in animation for page transitions */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.25s ease-out forwards; }
+
+/* Processing step animation */
+@keyframes stepPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+.step-pulse { animation: stepPulse 1.2s ease-in-out infinite; }

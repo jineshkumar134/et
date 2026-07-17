@@ -1,0 +1,45 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.env
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ML artifacts
+models/*.pt
+models/*.pkl
+models/*.json
+models/*.bin
+models/*_best*
+!models/.gitkeep
+
+# Data files (can be large)
+datasets/*.csv
+!datasets/generate_demo_data.py
+!datasets/.gitkeep
+
+# Database
+*.db
+*.sqlite
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Logs
+*.log
+logs/
