@@ -61,7 +61,8 @@ export const ConfigProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const fetchMetadata = async (currentConfig: AppConfig) => {
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:8000/api/dashboard', {
+      const apiBase = import.meta.env.VITE_API_URL || 'https://et-kdta.onrender.com';
+      const res = await axios.get(`${apiBase}/api/dashboard`, {
         params: {
           city: currentConfig.city,
           resolution: currentConfig.resolution,
