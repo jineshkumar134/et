@@ -206,9 +206,9 @@ export const Onboarding: React.FC = () => {
   const [processingStep, setProcessingStep] = useState(0);
   const [processingDone, setProcessingDone] = useState(false);
 
-  /* ── Load options from backend ── */
   useEffect(() => {
-    axios.get('http://localhost:8000/api/config/options')
+    const apiBase = import.meta.env.VITE_API_URL || 'https://et-kdta.onrender.com';
+    axios.get(`${apiBase}/api/config/options`)
       .then(res => {
         setOptions(res.data);
         // Pre-fill from saved config
