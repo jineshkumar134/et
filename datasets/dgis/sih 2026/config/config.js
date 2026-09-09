@@ -8,14 +8,17 @@ const configSchema = z.object({
   PORT: z.coerce.number().default(5001),
   MONGODB_URI: z.string().default('mongodb://127.0.0.1:27017/sih_vasp'),
   ENABLE_MOCK_DB: z.preprocess(
-    (val) => String(val).toLowerCase() === 'true',
+    (val) => (val === undefined || val === null || val === '' ? true : String(val).toLowerCase() === 'true'),
     z.boolean().default(true)
   ),
   ENABLE_MOCK_BLOCKCHAIN: z.preprocess(
-    (val) => String(val).toLowerCase() === 'true',
+    (val) => (val === undefined || val === null || val === '' ? true : String(val).toLowerCase() === 'true'),
     z.boolean().default(true)
   ),
-  DATA_SOURCE: z.string().default('mock'),
+  DATA_SOURCE: z.preprocess(
+    (val) => (val === undefined || val === null || val === '' ? 'mock' : String(val).toLowerCase()),
+    z.string().default('mock')
+  ),
   ETHERSCAN_API_KEY: z.string().optional(),
   NODE_ENV: z.string().default('development')
 });

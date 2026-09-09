@@ -11,7 +11,8 @@ const mockAdapterInstances = new Map();
  */
 function getBlockchainAdapter(chain = 'ethereum') {
   const normalizedChain = String(chain || 'ethereum').toLowerCase();
-  const isMockMode = config.dataSource === 'mock' || config.enableMockBlockchain;
+  const apiKey = config.etherscanApiKey || process.env.ETHERSCAN_API_KEY;
+  const isMockMode = config.dataSource === 'mock' || config.enableMockBlockchain || !apiKey;
 
   if (isMockMode) {
     if (!mockAdapterInstances.has(normalizedChain)) {
@@ -21,7 +22,6 @@ function getBlockchainAdapter(chain = 'ethereum') {
   }
 
   // REAL mode requested (DATA_SOURCE=real)
-  const apiKey = config.etherscanApiKey || process.env.ETHERSCAN_API_KEY;
   if (!apiKey) {
     const err = new Error(`PROVIDER_NOT_CONFIGURED: Real blockchain provider for '${normalizedChain}' requested (DATA_SOURCE=real), but ETHERSCAN_API_KEY is not configured.`);
     err.statusCode = 503;
