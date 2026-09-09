@@ -1,12 +1,30 @@
+const { saveFile, loadFile } = require('./fsStore');
+
 class CaseRepositoryMemory {
   constructor() {
     this.store = new Map();
+    this._load();
+  }
+
+  _load() {
+    const list = loadFile('cases', []);
+    for (const item of list) {
+      if (item && item.caseId) {
+        this.store.set(item.caseId, item);
+      }
+    }
+  }
+
+  _save() {
+    const list = Array.from(this.store.values());
+    saveFile('cases', list);
   }
 
   async create(data) {
     if (!data.caseId) {
       throw new Error('caseId is required');
     }
+    this._load(); // refresh from disk
     if (this.store.has(data.caseId)) {
       const err = new Error(`Duplicate key error: Case ${data.caseId} already exists`);
       err.code = 11000;
@@ -41,10 +59,12 @@ class CaseRepositoryMemory {
     };
 
     this.store.set(data.caseId, record);
+    this._save();
     return { ...record };
   }
 
   async findById(id) {
+    this._load();
     for (const record of this.store.values()) {
       if (record._id === id || record.caseId === id) {
         return { ...record };
@@ -54,12 +74,14 @@ class CaseRepositoryMemory {
   }
 
   async findByCaseId(caseId) {
+    this._load();
     const record = this.store.get(caseId);
     return record ? { ...record } : null;
   }
 
   async findBySahyogRequestId(requestId) {
     if (!requestId) return null;
+    this._load();
     for (const record of this.store.values()) {
       if (record.sahyogRequestId === requestId) {
         return { ...record };
@@ -69,6 +91,7 @@ class CaseRepositoryMemory {
   }
 
   async update(caseId, updateData) {
+    this._load();
     const existing = this.store.get(caseId);
     if (!existing) return null;
 
@@ -79,10 +102,12 @@ class CaseRepositoryMemory {
     };
 
     this.store.set(caseId, updated);
+    this._save();
     return { ...updated };
   }
 
   async list(filter = {}, options = {}) {
+    this._load();
     let items = Array.from(this.store.values());
 
     if (filter.status) {
@@ -104,6 +129,7 @@ class CaseRepositoryMemory {
 
   async clear() {
     this.store.clear();
+    this._save();
   }
 }
 

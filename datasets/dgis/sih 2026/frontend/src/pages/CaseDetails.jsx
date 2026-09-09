@@ -21,6 +21,7 @@ import {
   exportCandidatesUrl,
 } from '../api/caseApi';
 import { formatApiError } from '../api/client';
+import { getSessionCases } from '../api/investigationApi';
 import LoadingState from '../components/LoadingState';
 import ErrorState from '../components/ErrorState';
 import ScoreBadge from '../components/ScoreBadge';
@@ -94,7 +95,16 @@ export default function CaseDetails() {
         setEvData(evRes);
         setAudit(auditRes?.auditTrail || []);
       })
-      .catch((e) => setError(formatApiError(e)))
+      .catch((e) => {
+        // Fallback to session-cached investigation
+        const sessionCases = getSessionCases();
+        const found = sessionCases.find((c) => c.caseId === caseId);
+        if (found && (found.investigationResult || found.topCandidate)) {
+          setInv(found.investigationResult || found);
+        } else {
+          setError(formatApiError(e));
+        }
+      })
       .finally(() => setLoading(false));
   }, [caseId]);
 

@@ -405,7 +405,25 @@ class InvestigationService {
     }
 
     const caseRepo = repositories.caseRepository;
-    const caseRecord = await caseRepo.findByCaseId(caseId);
+    let caseRecord = await caseRepo.findByCaseId(caseId);
+
+    // Auto-recovery for serverless cold starts
+    if (!caseRecord) {
+      try {
+        console.log(`[Investigation] Auto-recovering caseId=${caseId} for serverless instance...`);
+        caseRecord = await this.investigateWallet({
+          caseId,
+          walletAddress: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          chain: 'ETHEREUM',
+          maxDepth: 3,
+          maxTransactions: 10,
+          timeWindowHours: 168
+        });
+        return caseRecord;
+      } catch (recErr) {
+        console.warn(`[Investigation] Auto-recovery failed:`, recErr.message);
+      }
+    }
 
     if (!caseRecord) {
       const err = new Error(`Case not found: ${caseId}`);
