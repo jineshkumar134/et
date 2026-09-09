@@ -10,7 +10,8 @@
     "seed": "node scripts/seed.js",
     "test": "node scripts/verify.js",
     "verify": "node scripts/verify.js",
-    "smoke": "node scripts/smokeTest.js"
+    "smoke": "node scripts/smokeTest.js",
+    "vercel-build": "cd frontend && npm install && npm run build"
   },
   "keywords": [
     "crypto",
