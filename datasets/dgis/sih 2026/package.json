@@ -1,0 +1,37 @@
+{
+  "name": "sih-2026-vasp-backend",
+  "version": "1.0.0",
+  "description": "Automated Attribution of Unknown Cryptocurrency Wallets to Nearest VASPs - LEA Investigation Backend Prototype",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "seed": "node scripts/seed.js",
+    "test": "node scripts/verify.js",
+    "verify": "node scripts/verify.js",
+    "smoke": "node scripts/smokeTest.js"
+  },
+  "keywords": [
+    "crypto",
+    "vasp",
+    "attribution",
+    "blockchain",
+    "sih2026",
+    "lea"
+  ],
+  "author": "SIH 2026 Team",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "mongoose": "^8.4.1",
+    "morgan": "^1.10.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.2"
+  }
+}
